@@ -63,7 +63,26 @@ public class NumberTriangle {
      * Note: a NumberTriangle contains at least one value.
      */
     public void maxSumPath() {
-        // for fun [not for credit]:
+        if (isLeaf()) {
+            return;
+        }
+        
+        int leftMax = 0;
+        if (left != null) {
+            left.maxSumPath();  
+            leftMax = left.getRoot();
+        }
+        
+        int rightMax = 0;
+        if (right != null) {
+            right.maxSumPath(); 
+            rightMax = right.getRoot();
+        }
+        
+        root = root + Math.max(leftMax, rightMax);
+        
+        left = null;
+        right = null;
     }
 
 
@@ -88,8 +107,24 @@ public class NumberTriangle {
      *
      */
     public int retrieve(String path) {
-        // TODO implement this method
-        return -1;
+        // Start from current triangle
+        NumberTriangle current = this;
+        
+        // Go through each character in the path
+        for (int i = 0; i < path.length(); i++) {
+            // Get the current direction ('l' or 'r')
+            char direction = path.charAt(i);
+            
+            // Move left or right based on the direction
+            if (direction == 'l') {
+                current = current.left;
+            } else {  // direction must be 'r'
+                current = current.right;
+            }
+        }
+        
+        // Return the root value of where we ended up
+        return current.getRoot();
     }
 
     /** Read in the NumberTriangle structure from a file.
