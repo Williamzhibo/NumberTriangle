@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the provided NumberTriangle class to be used in this coding task.
@@ -129,6 +131,30 @@ public class NumberTriangle {
         }
         br.close();
         return top;
+    }
+
+    public int[][] loadTriangle() throws IOException {
+        List<String> lines = new ArrayList<>();
+        
+        BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/input_tree.txt"));
+        String line = reader.readLine();
+        while (line != null) {
+            lines.add(line);
+            line = reader.readLine();
+        }
+        reader.close();
+        
+        int count = lines.size();
+        int[][] triangle = new int[count][];
+        for (int i = 0; i < count; i++) {
+            String[] parts = lines.get(i).trim().split(" +");
+            triangle[i] = new int[parts.length];
+            for (int j = 0; j < parts.length; j++) {
+                triangle[i][j] = Integer.parseInt(parts[j]);
+            }
+        }
+        
+        return triangle;
     }
 
     public static void main(String[] args) throws IOException {
